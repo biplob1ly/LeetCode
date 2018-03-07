@@ -1,4 +1,11 @@
 # Intellij
-.idea/
-*.iml
+#*.iml
+.idea/workspace.xml
+.idea/libraries
+.idea/tasks.xml
 *.iws
+/out/
+
+
+# Java class files
+*.class

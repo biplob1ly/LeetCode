@@ -3,11 +3,16 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(1);
-        head.next.next = new ListNode(2);
-        head.next.next.next = new ListNode(2);
-        deleteDuplicates(head);
+//        ListNode head = new ListNode(1);
+//        head.next = new ListNode(1);
+//        head.next.next = new ListNode(2);
+//        head.next.next.next = new ListNode(2);
+//        deleteDuplicates(head);
+
+        int[][] arr = {{1,4,7},
+                {2,5,8},
+                {3,6,9}};
+        System.out.println(searchMatrix(arr, 0));
     }
 
     //Definition for a binary tree node.
@@ -62,6 +67,11 @@ public class Main {
     }
 
 
+    public int findKthLargest(int[] nums, int k) {
+        return k;
+    }
+
+
     public int searcha(int[] nums, int target) {
         return 0;
     }
@@ -72,7 +82,48 @@ public class Main {
     }
 
 
-    public boolean searchMatrix(int[][] matrix, int target) {
+
+    public boolean searchMatrix2(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        int i=0,j=matrix[0].length-1;
+        while (i < matrix.length) {
+            while (j >= 0) {
+                if (target == matrix[i][j]) {
+                    return true;
+                } else if (target > matrix[i][j]) {
+                    break;
+                }
+                j--;
+            }
+            i++;
+        }
+
+        return false;
+    }
+
+
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        int i = -1;
+        if (matrix.length == 0 || matrix[0].length == 0 || target < matrix[0][0] || target > matrix[matrix.length-1][matrix[0].length-1]) {
+            return false;
+        }
+        int rowlen = matrix[0].length;
+        while (++i < matrix.length && target > matrix[i][rowlen-1]);
+        int left = 0;
+        int right = rowlen-1;
+        int mid;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (matrix[i][mid] == target) {
+                return true;
+            } else if (target < matrix[i][mid]) {
+                right = mid-1;
+            } else {
+                left = mid+1;
+            }
+        }
         return false;
     }
 
