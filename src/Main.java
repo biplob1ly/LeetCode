@@ -12,9 +12,15 @@ public class Main {
         int[][] arr = {{1,4,7},
                 {2,5,8},
                 {3,6,9}};
-        System.out.println(searchMatrix(arr, 0));
     }
 
+    //Definition for singly-linked list.
+    static class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) { val = x; }
+    }
+    
     //Definition for a binary tree node.
     static class TreeNode {
          int val;
@@ -23,33 +29,35 @@ public class Main {
          TreeNode(int x) { val = x; }
     }
 
-//    public List<List<Integer>> levelOrderBottom(TreeNode root) {
-//        return new List<List<Integer>>() {
-//        }
-//    }
 
-//    public List<Integer> inorderTraversal(TreeNode root) {
-//        return new List<Integer>(Arrays.asList(9,8));
-//    }
-
-//    public List<Integer> preorderTraversal(TreeNode root) {
-//
-//    }
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        return new ArrayList<>();
+    }
 
 
-//    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
-//
-//    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        return new ArrayList<>();
+    }
 
 
-//    public TreeNode trimBST(TreeNode root, int L, int R) {
-//
-//    }
+    public List<Integer> preorderTraversal(TreeNode root) {
+        return new ArrayList<>();
+    }
 
 
-//    public TreeNode sortedArrayToBST(int[] nums) {
-//
-//    }
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        return  new TreeNode(4);
+    }
+
+
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        return  new TreeNode(4);
+    }
+
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+         return  new TreeNode(4);
+    }
 
 
     public String tree2str(TreeNode t) {
@@ -82,6 +90,10 @@ public class Main {
     }
 
 
+    public boolean judgeCircle(String moves) {
+        return true;
+    }
+
 
     public boolean searchMatrix2(int[][] matrix, int target) {
         if (matrix.length == 0 || matrix[0].length == 0) {
@@ -104,7 +116,7 @@ public class Main {
     }
 
 
-    public static boolean searchMatrix(int[][] matrix, int target) {
+    public boolean searchMatrix(int[][] matrix, int target) {
         int i = -1;
         if (matrix.length == 0 || matrix[0].length == 0 || target < matrix[0][0] || target > matrix[matrix.length-1][matrix[0].length-1]) {
             return false;
@@ -142,15 +154,13 @@ public class Main {
         return 0;
     }
 
-    //Definition for singly-linked list.
-    static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
+
+    public ListNode rotateRight(ListNode head, int k) {
+        return head;
     }
 
 
-    public static ListNode deleteDuplicates(ListNode head) {
+    public ListNode deleteDuplicates(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
@@ -273,38 +283,54 @@ public class Main {
 
 
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null) {
-            return null;
-        }
-        int l1 = 0;
-        int l2 = 0;
-        ListNode temp1 = headA;
-        ListNode temp2 = headB;
-        while (temp1 != null) {
-            l1++;
-            temp1 = temp1.next;
-        }
-        while (temp2 != null) {
-            l2++;
-            temp2 = temp2.next;
-        }
-        int diff = Math.abs(l1-l2);
-        if (l1 >= l2) {
-            temp1 = headA;
-            temp2 = headB;
-        } else {
-            temp1 = headB;
-            temp2 = headA;
-        }
-        while (diff != 0) {
-            temp1 = temp1.next;
-            diff--;
-        }
-        while (temp1 != temp2) {
-            temp1 = temp1.next;
-            temp2 = temp2.next;
-        }
-        return temp1;
+       if (headA == null || headB == null) {
+           return null;
+       }
+       int l1 = 0;
+       int l2 = 0;
+       ListNode temp1 = headA;
+       ListNode temp2 = headB;
+       while (temp1 != null) {
+           l1++;
+           temp1 = temp1.next;
+       }
+       while (temp2 != null) {
+           l2++;
+           temp2 = temp2.next;
+       }
+       int diff = Math.abs(l1-l2);
+       if (l1 >= l2) {
+           temp1 = headA;
+           temp2 = headB;
+       } else {
+           temp1 = headB;
+           temp2 = headA;
+       }
+       while (diff != 0) {
+           temp1 = temp1.next;
+           diff--;
+       }
+       while (temp1 != temp2) {
+           temp1 = temp1.next;
+           temp2 = temp2.next;
+       }
+       return temp1;
+
+    }
+
+
+    public String largestNumber(int[] nums) {
+        return "dfdf";
+    }
+
+
+    public int maxSubArray(int[] nums) {
+        return 3;
+    }
+
+
+    public void sortColors(int[] nums) {
+
     }
 
 
