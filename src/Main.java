@@ -20,7 +20,7 @@ public class Main {
         ListNode next;
         ListNode(int x) { val = x; }
     }
-    
+
     //Definition for a binary tree node.
     static class TreeNode {
          int val;
@@ -60,6 +60,11 @@ public class Main {
     }
 
 
+    public int maxDepth(TreeNode root) {
+        return 0;
+    }
+
+
     public String tree2str(TreeNode t) {
         return new String("gh");
     }
@@ -91,6 +96,11 @@ public class Main {
 
 
     public boolean judgeCircle(String moves) {
+        return true;
+    }
+
+
+    public boolean rotateString(String A, String B) {
         return true;
     }
 
@@ -386,6 +396,11 @@ public class Main {
 
     public int arrayPairSum(int[] nums) {
         return 0;
+    }
+
+
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        return nums1;
     }
 
 
