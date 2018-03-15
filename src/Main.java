@@ -80,12 +80,57 @@ public class Main {
     }
 
 
+    //search in a rotated sorted array
     public int searcha(int[] nums, int target) {
-        return 0;
+        int l = 0;
+        int r = nums.length -1;
+        while(l <= r) {
+            int mid = l + (r-l)/2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[l] < nums[mid]) {
+                if (nums[l] <= target && target < nums[mid]) {
+                    r = mid-1;
+                } else {
+                    l = mid+1;
+                }
+            } else if (nums[l] > nums[mid]) {
+                if (nums[mid] < target && target <= nums[r]) {
+                    l = mid+1;
+                } else {
+                    r = mid-1;
+                }
+            } else {
+                l++;
+            }
+        }
+        return -1;
     }
 
 
     public boolean search(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length -1;
+        while(l <= r) {
+            int mid = l + (r-l)/2;
+            if (nums[mid] == target) {
+                return true;
+            } else if (nums[l] == nums[mid]) {
+                l++;
+            } else if (nums[l] < nums[mid]) {
+                if (nums[l] <= target && target < nums[mid]) {
+                    r = mid-1;
+                } else {
+                    l = mid+1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[r]) {
+                    l = mid+1;
+                } else {
+                    r = mid-1;
+                }
+            }
+        }
         return false;
     }
 
@@ -137,6 +182,27 @@ public class Main {
             }
         }
         return false;
+    }
+
+
+    public int findMin(int[] nums) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l <= r) {
+            while (nums[l] == nums[r] && l != r) {
+                l++;
+            }
+            if (nums[l] <= nums[r]) {
+                return nums[l];
+            }
+            int mid = l + (r-l)/2;
+            if (nums[l] <= nums[mid]) {
+                l = mid+1;
+            } else {
+                r = mid;
+            }
+        }
+        return -1;
     }
 
 
