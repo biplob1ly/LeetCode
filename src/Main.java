@@ -12,6 +12,9 @@ public class Main {
         int[][] arr = {{1,4,7},
                 {2,5,8},
                 {3,6,9}};
+
+        int[] nums = {3,2,1,5,6,4};
+        System.out.println(findKthLargest(nums, 2));
     }
 
     //Definition for singly-linked list.
@@ -27,6 +30,26 @@ public class Main {
          TreeNode left;
          TreeNode right;
          TreeNode(int x) { val = x; }
+    }
+
+
+    public int kthSmallest(TreeNode root, int k) {
+        return k;
+    }
+
+
+    public TreeNode invertTree(TreeNode root) {
+        return root;
+    }
+
+
+    public List<Double> averageOfLevels(TreeNode root) {
+        return new ArrayList<>();
+    }
+
+
+    public int countSubstrings(String s) {
+        return 0;
     }
 
 
@@ -80,8 +103,58 @@ public class Main {
     }
 
 
-    public int findKthLargest(int[] nums, int k) {
-        return k;
+    public int maxAreaOfIsland(int[][] grid) {
+        return 0;
+    }
+
+
+    public List<String> letterCasePermutation(String S) {
+        return new ArrayList<>();
+    }
+
+
+    public int rotatedDigits(int N) {
+        return N;
+    }
+
+
+    public int findLUSlength(String a, String b) {
+        return 0;
+    }
+
+
+    public static int findKthLargest(int[] nums, int k) {
+
+        int l = 0;
+        int r = nums.length-1;
+
+        while (r-l+1 >= k) {
+            int pivot = l-1;
+            for (int i=l; i<r; i++) {
+                if (nums[i] <= nums[r]) {
+                    pivot++;
+                    int temp = nums[pivot];
+                    nums[pivot] = nums[i];
+                    nums[i] = temp;
+                }
+            }
+            pivot++;
+            int temp = nums[pivot];
+            nums[pivot] = nums[r];
+            nums[r] = temp;
+            int pos = r - pivot + 1;
+            if (pos == k) {
+                return nums[pivot];
+            } else if (pos > k) {
+                l = pivot+1;
+            } else {
+                k -= pos;
+                r = pivot-1;
+
+            }
+
+        }
+        return -1;
     }
 
 
