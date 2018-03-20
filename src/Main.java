@@ -38,6 +38,11 @@ public class Main {
     }
 
 
+    public int[] findMode(TreeNode root) {
+        return new int[]{7,9};
+    }
+
+
     public TreeNode invertTree(TreeNode root) {
         return root;
     }
@@ -301,6 +306,11 @@ public class Main {
 
     public int findDuplicate(int[] nums) {
         return 0;
+    }
+
+
+    public String optimalDivision(int[] nums) {
+        return "gghg";
     }
 
 
@@ -1161,5 +1171,107 @@ public class Main {
             }
         }
         return true;
+    }
+
+
+    public List<Integer> majorityElementII(int[] nums) {
+        return new ArrayList<>();
+    }
+
+
+    public int[] dailyTemperatures(int[] temperatures) {
+        return temperatures;
+    }
+
+
+    public int monotoneIncreasingDigits(int N) {
+        return N;
+    }
+
+
+    public boolean pyramidTransition(String bottom, List<String> allowed) {
+        return false;
+    }
+
+    static class MyQueue {
+
+        /** Initialize your data structure here. */
+        public MyQueue() {
+
+        }
+
+        /** Push element x to the back of queue. */
+        public void push(int x) {
+
+        }
+
+        /** Removes the element from in front of queue and returns that element. */
+        public int pop() {
+            return 0;
+        }
+
+        /** Get the front element. */
+        public int peek() {
+            return 0;
+        }
+
+        /** Returns whether the queue is empty. */
+        public boolean empty() {
+            return true;
+        }
+    }
+
+
+    static class MyStack {
+
+        /** Initialize your data structure here. */
+        public MyStack() {
+
+        }
+
+        /** Push element x onto stack. */
+        public void push(int x) {
+
+        }
+
+        /** Removes the element on top of the stack and returns that element. */
+        public int pop() {
+            return 0;
+        }
+
+        /** Get the top element. */
+        public int top() {
+            return 1;
+        }
+
+        /** Returns whether the stack is empty. */
+        public boolean empty() {
+            return false;
+        }
+    }
+
+
+    static class MinStack {
+
+        /** initialize your data structure here. */
+        public MinStack() {
+
+        }
+
+        public void push(int x) {
+
+        }
+
+        public void pop() {
+
+        }
+
+        public int top() {
+            return 0;
+        }
+
+        public int getMin() {
+            return 1;
+        }
     }
 }
