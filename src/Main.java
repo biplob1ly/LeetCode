@@ -9,12 +9,12 @@ public class Main {
 //        head.next.next.next = new ListNode(2);
 //        deleteDuplicates(head);
 
-        int[][] arr = {{1,4,7},
-                {2,5,8},
-                {3,6,9}};
+        int[][] arr = {{1,5,9},
+                {10,11,13},
+                {12,13,15}};
 
         int[] nums = {3,2,1,5,6,4};
-        System.out.println(findKthLargest(nums, 2));
+        System.out.println(kthSmallest(arr, 8));
     }
 
     //Definition for singly-linked list.
@@ -119,7 +119,24 @@ public class Main {
 
 
     public int rotatedDigits(int N) {
-        return N;
+        Set<Integer> rotable = new HashSet<>(Arrays.asList(0,1,2,5,6,8,9));
+        int count = 0;
+        for (int i=1; i<=N; i++) {
+            int status = 1;
+            for (int j=i; j>0; j/=10) {
+                int digit = j%10;
+                if (!rotable.contains(digit)) {
+                    status = 0;
+                    break;
+                } else if (status != 2 && (digit == 2 || digit == 5 || digit == 6 || digit == 9)) {
+                    status = 2;
+                }
+            }
+            if (status == 2) {
+                count++;
+            }
+        }
+        return count;
     }
 
 
@@ -224,7 +241,7 @@ public class Main {
 
 
     public boolean rotateString(String A, String B) {
-        return true;
+        return (A.length() == B.length() && (A+A).contains(B));
     }
 
 
@@ -294,8 +311,22 @@ public class Main {
     }
 
 
-    public int kthSmallest(int[][] matrix, int k) {
-        return k;
+    public static int kthSmallest(int[][] matrix, int k) {
+        int i;
+        for (i=1; i*i<=k; i++);
+        i--;
+        k -= i*i;
+
+        for (int j=i,r=0,c=0; k > 0;) {
+            if (matrix[r][j] <= matrix[i][c]) {
+                if (--k == 0) return matrix[r][j];
+                r++;
+            } else {
+                if (--k == 0) return matrix[i][c];
+                c++;
+            }
+        }
+        return matrix[i-1][i-1];
     }
 
 
