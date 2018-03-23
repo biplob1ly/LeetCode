@@ -21,8 +21,8 @@ public class Main {
                 {10,11,13},
                 {12,13,15}};
 
-        int[] nums = {3,2,1,5,6,4};
-        System.out.println(kthSmallest(arr, 8));
+        int[] nums = {73,74,75,71,69,72,76,73};
+        System.out.println(Arrays.toString(dailyTemperatures(nums)));
 
 //        showRecursion();
 
@@ -437,24 +437,68 @@ public class Main {
     }
 
 
-    public static int kthSmallest(int[][] matrix, int k) {
-        int i;
-        for (i=1; i*i<=k; i++);
-        i--;
-        k -= i*i;
+    public int kthSmallest(int[][] matrix, int k) {
+        int len = matrix.length;
+        int low = matrix[0][0];
+        int up = matrix[len-1][len-1];
 
-        for (int j=i,r=0,c=0; k > 0;) {
-            if (matrix[r][j] <= matrix[i][c]) {
-                if (--k == 0) return matrix[r][j];
-                r++;
+        while(low < up) {
+            int mid = low + (up - low)/2;
+            if (count(matrix, mid) < k) {
+                low = mid+1;
             } else {
-                if (--k == 0) return matrix[i][c];
-                c++;
+                up = mid;
             }
         }
-        return matrix[i-1][i-1];
+        return up;
     }
 
+
+    public int count(int[][] matrix, int target) {
+        int i = matrix.length -1;
+        int j = 0;
+        int len = matrix[0].length;
+        int count = 0;
+
+        while (i >= 0 && j < len) {
+            if (target >= matrix[i][j]) {
+                count += i+1;
+                j++;
+            } else {
+                i--;
+            }
+        }
+        return count;
+    }
+
+
+    public int numSquares(int n) {
+        if (is_square(n)) {
+            return 1;
+        }
+
+        int num = n;
+        while ((num & 3) ==0) {
+            num >>= 2;
+        }
+        if ((num & 7) == 7) {
+            return 4;
+        }
+
+        int sqrt = (int)Math.sqrt(n);
+        for (int i=1; i<sqrt; i++) {
+            if (is_square(n - i*i)) {
+                return 2;
+            }
+        }
+
+        return 3;
+    }
+
+    public boolean is_square(int n) {
+        int sqrt = (int)Math.sqrt(n);
+        return sqrt*sqrt == n;
+    }
 
     public int[] intersect(int[] nums1, int[] nums2) {
         return nums1;
@@ -635,13 +679,44 @@ public class Main {
     }
 
 
-    public String largestNumber(int[] nums) {
-        return "dfdf";
+    public static String largestNumber(int[] nums) {
+        String[] numStrArray = new String[nums.length];
+        for (int i=0; i<nums.length; i++) {
+            numStrArray[i] = Integer.toString(nums[i]);
+        }
+
+        Arrays.sort(numStrArray, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return (o2+o1).compareTo(o1+o2);
+            }
+        });
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : numStrArray) {
+            sb.append(s);
+        }
+
+        while (sb.charAt(0) == '0' && sb.length() > 1) {
+            sb.deleteCharAt(0);
+        }
+
+        return sb.toString();
     }
 
 
     public int maxSubArray(int[] nums) {
-        return 3;
+        if (nums.length == 0) {
+            return -1;
+        }
+        int max = nums[0];
+        int maxRecent = nums[0];
+        for (int i=1; i<nums.length; i++) {
+            maxRecent = Math.max(maxRecent+nums[i], nums[i]);
+            max = Math.max(max, maxRecent);
+        }
+
+        return max;
     }
 
 
@@ -651,6 +726,18 @@ public class Main {
 
 
     public boolean judgeSquareSum(int c) {
+        int up = (int)Math.sqrt(c);
+        int low = 0;
+        while (low <= up) {
+            int sum = low*low + up*up;
+            if (sum == c) {
+                return true;
+            } else if (sum < c) {
+                low++;
+            } else {
+                up--;
+            }
+        }
         return false;
     }
 
@@ -1336,8 +1423,28 @@ public class Main {
     }
 
 
-    public int[] dailyTemperatures(int[] temperatures) {
-        return temperatures;
+    public static int[] dailyTemperatures(int[] temperatures) {
+        Stack<Integer> indexStack = new Stack<>();
+        int[] result = new int[temperatures.length];
+
+        for (int i=temperatures.length-1; i>=0; --i) {
+            int val = 0;
+            while (!indexStack.isEmpty()) {
+                if (temperatures[i] < temperatures[indexStack.peek()]) {
+                    val = indexStack.peek() - i;
+                    break;
+                }
+                indexStack.pop();
+            }
+            result[i] = val;
+            indexStack.push(i);
+        }
+        return result;
+    }
+
+
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        return k;
     }
 
 
