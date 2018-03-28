@@ -184,18 +184,125 @@ public class Main {
     }
 
 
+    public List<Integer> rightSideView(TreeNode root) {
+        return new ArrayList<>();
+    }
+
+
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         return new ArrayList<>();
     }
 
 
+    public int findTilt(TreeNode root) {
+        return 0;
+    }
+
+
+    public TreeNode convertBST(TreeNode root) {
+        return root;
+    }
+
+
+
+
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        return 0;
+    }
+
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        return true;
+    }
+
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> orderList = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+
+        if (root != null) {
+            stack.push(root);
+        }
+
+        return orderList;
+
+    }
+
+
     public List<Integer> inorderTraversal(TreeNode root) {
-        return new ArrayList<>();
+        List<Integer> inorderList = new ArrayList<>();
+        if (root == null) {
+            return inorderList;
+        }
+        TreeNode node = root;
+        Stack<TreeNode> nodeStack = new Stack<>();
+        while (node != null) {
+            nodeStack.push(node);
+            node = node.left;
+        }
+        while (!nodeStack.isEmpty()) {
+            node = nodeStack.pop();
+            inorderList.add(node.val);
+            if (node.right != null) {
+                node = node.right;
+                while (node != null) {
+                    nodeStack.push(node);
+                    node = node.left;
+                }
+            }
+        }
+        return inorderList;
     }
 
 
     public List<Integer> preorderTraversal(TreeNode root) {
-        return new ArrayList<>();
+        List<Integer> orderList = new ArrayList<>();
+        if (root == null) {
+            return orderList;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            orderList.add(node.val);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        return orderList;
+    }
+
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> orderList = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        if (root != null) {
+            stack.push(root);
+        }
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.peek();
+            boolean isLeaf = true;
+            if (node.right != null) {
+                stack.push(node.right);
+                isLeaf = false;
+                node.right = null;
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+                isLeaf = false;
+                node.left =null;
+            }
+
+            if (isLeaf) {
+                orderList.add(node.val);
+                stack.pop();
+            }
+        }
+        return orderList;
     }
 
 
@@ -250,13 +357,23 @@ public class Main {
             int ones = 0;
             int pos = 1<<i;
             for (int j=0; j<nums.length; j++) {
-                if ((nums[i] & pos) > 0) {
+                if ((nums[j] & pos) > 0) {
                     ones++;
                 }
             }
             count += ones * (nums.length - ones);
         }
         return count;
+    }
+
+
+    public int titleToNumber(String s) {
+        return 0;
+    }
+
+
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        return new ArrayList<>();
     }
 
 
@@ -511,10 +628,12 @@ public class Main {
         return 3;
     }
 
+
     public boolean is_square(int n) {
         int sqrt = (int)Math.sqrt(n);
         return sqrt*sqrt == n;
     }
+
 
     public int[] intersect(int[] nums1, int[] nums2) {
         return nums1;
