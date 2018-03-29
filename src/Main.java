@@ -190,7 +190,34 @@ public class Main {
 
 
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        return new ArrayList<>();
+        public List<List<Integer>> levelOrderBottom(TreeNode root) {
+            List<List<Integer>> orderList = new ArrayList<>();
+            LinkedList<TreeNode> current = new LinkedList<>();
+            LinkedList<TreeNode> next = new LinkedList<>();
+            List<Integer> currentVals = new ArrayList<>();
+
+            if (root != null) {
+                current.add(root);
+            }
+            while (!current.isEmpty()) {
+                TreeNode node = current.poll();
+                currentVals.add(node.val);
+                if (node.left != null) {
+                    next.add(node.left);
+                }
+                if (node.right != null) {
+                    next.add(node.right);
+                }
+                if (current.isEmpty()) {
+                    orderList.add(0, currentVals);
+                    currentVals = new ArrayList<>();
+                    current = next;
+                    next = new LinkedList<>();
+                }
+            }
+
+            return orderList;
+        }
     }
 
 
@@ -219,14 +246,62 @@ public class Main {
 
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> orderList = new ArrayList<>();
-        Stack<TreeNode> stack = new Stack<>();
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        List<Integer> currentVals = new ArrayList<>();
 
         if (root != null) {
-            stack.push(root);
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            currentVals.add(node.val);
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                orderList.add(currentVals);
+                currentVals = new ArrayList<>();
+                current = next;
+                next = new LinkedList<>();
+            }
         }
 
         return orderList;
+    }
 
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> orderList = new ArrayList<>();
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        List<Integer> currentVals = new ArrayList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        int levelCount = 0;
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            (levelCount%2 == 0)currentVals.add(node.val);
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                orderList.add(currentVals);
+                currentVals = new ArrayList<>();
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return orderList;
     }
 
 
