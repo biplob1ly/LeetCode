@@ -190,7 +190,6 @@ public class Main {
 
 
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        public List<List<Integer>> levelOrderBottom(TreeNode root) {
             List<List<Integer>> orderList = new ArrayList<>();
             LinkedList<TreeNode> current = new LinkedList<>();
             LinkedList<TreeNode> next = new LinkedList<>();
@@ -217,7 +216,6 @@ public class Main {
             }
 
             return orderList;
-        }
     }
 
 
@@ -286,7 +284,11 @@ public class Main {
         int levelCount = 0;
         while (!current.isEmpty()) {
             TreeNode node = current.poll();
-            (levelCount%2 == 0)currentVals.add(node.val);
+            if (levelCount%2 == 0) {
+                currentVals.add(node.val);
+            } else {
+                currentVals.add(0, node.val);
+            }
             if (node.left != null) {
                 next.add(node.left);
             }
@@ -397,6 +399,32 @@ public class Main {
 
 
     public int maxDepth(TreeNode root) {
+        int depth = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        if (root != null) {
+            current.add(root);
+        }
+
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                current = next;
+                next = new LinkedList<>();
+                depth++;
+            }
+        }
+        return depth;
+    }
+
+
+    public int minDepth(TreeNode root) {
         return 0;
     }
 
