@@ -170,12 +170,53 @@ public class Main {
 
 
     public TreeNode invertTree(TreeNode root) {
+        invertChild(root);
         return root;
     }
 
 
+    public void invertChild(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        TreeNode tempNode = node.left;
+        node.left = node.right;
+        node.right = tempNode;
+        invertChild(node.left);
+        invertChild(node.right);
+    }
+
+
     public List<Double> averageOfLevels(TreeNode root) {
-        return new ArrayList<>();
+        List<Double> averageList = new ArrayList<>();
+        double sum = 0;
+        int count = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            sum += node.val;
+            count++;
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                averageList.add(sum/count);
+                sum = 0;
+                count = 0;
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return averageList;
     }
 
 
@@ -230,15 +271,19 @@ public class Main {
 
 
 
-
-
     public int diameterOfBinaryTree(TreeNode root) {
         return 0;
     }
 
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        return true;
+        if (p == q) {
+            return true;
+        } else if (p == null || q == null || p.val != q.val) {
+            return false;
+        }
+
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
 
@@ -425,7 +470,34 @@ public class Main {
 
 
     public int minDepth(TreeNode root) {
-        return 0;
+        int depth = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        if (root != null) {
+            current.add(root);
+        }
+
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            boolean flag = true;
+            if (node.left != null) {
+                next.add(node.left);
+                flag = false;
+            }
+            if (node.right != null) {
+                next.add(node.right);
+                flag = false;
+            } else if (flag) {
+                depth++;
+                break;
+            }
+            if (current.isEmpty()) {
+                current = next;
+                next = new LinkedList<>();
+                depth++;
+            }
+        }
+        return depth;
     }
 
 
