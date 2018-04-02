@@ -220,13 +220,52 @@ public class Main {
     }
 
 
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> maxList = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            if (max < node.val) {
+                max = node.val;
+            }
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                maxList.add(max);
+                max = Integer.MIN_VALUE;
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return maxList;
+    }
+
+
     public int countSubstrings(String s) {
         return 0;
     }
 
 
     public List<Integer> rightSideView(TreeNode root) {
-        return new ArrayList<>();
+        List<Integer> rightList = new ArrayList<>();
+
+        while (root != null) {
+            rightList.add(root.val);
+            root = (root.right != null) ? root.right : root.left;
+        }
+
+        return rightList;
     }
 
 
@@ -268,7 +307,6 @@ public class Main {
     public TreeNode convertBST(TreeNode root) {
         return root;
     }
-
 
 
     public int diameterOfBinaryTree(TreeNode root) {
@@ -429,7 +467,17 @@ public class Main {
 
 
     public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
-        return  new TreeNode(4);
+        if (t1 == null) {
+            return t2;
+        } else if (t2 == null) {
+            return t1;
+        }
+
+        t1.val += t2.val;
+        t1.left = mergeTrees(t1.left, t2.left);
+        t1.right = mergeTrees(t1.right, t2.right);
+
+        return t1;
     }
 
 
@@ -486,7 +534,6 @@ public class Main {
             }
             if (node.right != null) {
                 next.add(node.right);
-                flag = false;
             } else if (flag) {
                 depth++;
                 break;
