@@ -170,12 +170,85 @@ public class Main {
 
 
     public TreeNode invertTree(TreeNode root) {
+        invertChild(root);
         return root;
     }
 
 
+    public void invertChild(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        TreeNode tempNode = node.left;
+        node.left = node.right;
+        node.right = tempNode;
+        invertChild(node.left);
+        invertChild(node.right);
+    }
+
+
     public List<Double> averageOfLevels(TreeNode root) {
-        return new ArrayList<>();
+        List<Double> averageList = new ArrayList<>();
+        double sum = 0;
+        int count = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            sum += node.val;
+            count++;
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                averageList.add(sum/count);
+                sum = 0;
+                count = 0;
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return averageList;
+    }
+
+
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> maxList = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            if (max < node.val) {
+                max = node.val;
+            }
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                maxList.add(max);
+                max = Integer.MIN_VALUE;
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return maxList;
     }
 
 
@@ -185,7 +258,14 @@ public class Main {
 
 
     public List<Integer> rightSideView(TreeNode root) {
-        return new ArrayList<>();
+        List<Integer> rightList = new ArrayList<>();
+
+        while (root != null) {
+            rightList.add(root.val);
+            root = (root.right != null) ? root.right : root.left;
+        }
+
+        return rightList;
     }
 
 
@@ -235,7 +315,13 @@ public class Main {
 
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        return true;
+        if (p == q) {
+            return true;
+        } else if (p == null || q == null || p.val != q.val) {
+            return false;
+        }
+
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
 
@@ -381,7 +467,17 @@ public class Main {
 
 
     public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
-        return  new TreeNode(4);
+        if (t1 == null) {
+            return t2;
+        } else if (t2 == null) {
+            return t1;
+        }
+
+        t1.val += t2.val;
+        t1.left = mergeTrees(t1.left, t2.left);
+        t1.right = mergeTrees(t1.right, t2.right);
+
+        return t1;
     }
 
 
@@ -422,7 +518,33 @@ public class Main {
 
 
     public int minDepth(TreeNode root) {
-        return 0;
+        int depth = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        if (root != null) {
+            current.add(root);
+        }
+
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            boolean flag = true;
+            if (node.left != null) {
+                next.add(node.left);
+                flag = false;
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            } else if (flag) {
+                depth++;
+                break;
+            }
+            if (current.isEmpty()) {
+                current = next;
+                next = new LinkedList<>();
+                depth++;
+            }
+        }
+        return depth;
     }
 
 
