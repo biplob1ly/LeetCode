@@ -314,6 +314,21 @@ public class Main {
     }
 
 
+    public int findBottomLeftValue(TreeNode root) {
+        return 0;
+    }
+
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        return new ArrayList<>();
+    }
+
+
+    public int findSecondMinimumValue(TreeNode root) {
+        return 0;
+    }
+
+
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == q) {
             return true;
@@ -549,7 +564,12 @@ public class Main {
 
 
     public String tree2str(TreeNode t) {
-        return new String("gh");
+        if (t == null) {
+            return "";
+        }
+        String right = (t.right != null) ? "(" + tree2str(t.right) + ")" : "";
+        String left = (t.left != null) ? "(" + tree2str(t.left) + ")" : ((t.right != null) ? "()" : "");
+        return t.val + left + right;
     }
 
 
@@ -1480,7 +1500,7 @@ public class Main {
 
         int ones = 0;
         int twos = 0;
-        int commonBits = 0;
+        int commonBits;
         for (int n : nums) {
             twos = twos|(ones & n);
             ones ^= n;
@@ -1562,7 +1582,7 @@ public class Main {
         valMap.put('I', 1);
 
         int result = 0;
-        int diff = 0;
+        int diff;
         for(int i=0; i<s.length();) {
             if (i != s.length()-1 &&(diff = valMap.get(s.charAt(i+1)) - valMap.get(s.charAt(i))) > 0) {
                 result += diff;
@@ -1653,7 +1673,7 @@ public class Main {
 
     public boolean isHappy(int n) {
         int num = n;
-        Set<Integer> numbers = new HashSet<Integer>(Arrays.asList(0,2,4,16,20,37,42,58,89,145));
+        Set<Integer> numbers = new HashSet<>(Arrays.asList(0, 2, 4, 16, 20, 37, 42, 58, 89, 145));
         while(n != 1) {
             int sum = 0;
             while(n != 0) {
