@@ -160,7 +160,22 @@ public class Main {
 
 
     public int kthSmallest(TreeNode root, int k) {
-        return k;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        int result = 0;
+        while(!stack.isEmpty() || node != null) {
+            if (node != null) {
+                stack.add(node);
+                node = node.left;
+            } else {
+                node = stack.pop();
+                if (--k == 0) {
+                    result = node.val;
+                }
+                node = node.right;
+            }
+        }
+        return result;
     }
 
 
@@ -257,12 +272,48 @@ public class Main {
     }
 
 
+    public boolean isSymmetric(TreeNode root) {
+        return false;
+    }
+
+
+    public boolean hasPathSum(TreeNode root, int sum) {
+        return false;
+    }
+
+
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        return new ArrayList<>();
+    }
+
+
+    public int maxPathSum(TreeNode root) {
+        return 0;
+    }
+
+
     public List<Integer> rightSideView(TreeNode root) {
+        LinkedList<TreeNode> queue = new LinkedList<>();
         List<Integer> rightList = new ArrayList<>();
 
-        while (root != null) {
-            rightList.add(root.val);
-            root = (root.right != null) ? root.right : root.left;
+        if (root != null) {
+            queue.add(root);
+        }
+
+        while (!queue.isEmpty()) {
+            int queueSize = queue.size();
+            for (int i=0; i<queueSize; i++) {
+                TreeNode node = queue.poll();
+                if (i == 0) {
+                    rightList.add(node.val);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+            }
         }
 
         return rightList;
@@ -309,8 +360,22 @@ public class Main {
     }
 
 
+    public int treeHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = treeHeight(root.left);
+        int rightHeight = treeHeight(root.right);
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+
     public int diameterOfBinaryTree(TreeNode root) {
-        return 0;
+
+        int leftHeight = treeHeight(root.left);
+        int rightHeight = treeHeight(root.right);
+
+        return 1 + 
     }
 
 
@@ -682,7 +747,7 @@ public class Main {
 
 
     //search in a rotated sorted array
-    public int searcha(int[] nums, int target) {
+    public int search2(int[] nums, int target) {
         int l = 0;
         int r = nums.length -1;
         while(l <= r) {
@@ -709,7 +774,7 @@ public class Main {
     }
 
 
-    public boolean search(int[] nums, int target) {
+    public boolean search1(int[] nums, int target) {
         int l = 0;
         int r = nums.length -1;
         while(l <= r) {
