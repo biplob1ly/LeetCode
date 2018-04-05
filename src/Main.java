@@ -21,8 +21,8 @@ public class Main {
                 {10,11,13},
                 {12,13,15}};
 
-        int[] nums = {73,74,75,71,69,72,76,73};
-        System.out.println(Arrays.toString(dailyTemperatures(nums)));
+        int[] nums = {10,5,2,6};
+        System.out.println(numSubarrayProductLessThanK(nums, 100));
 
 //        showRecursion();
 
@@ -271,7 +271,7 @@ public class Main {
     }
 
 
-    public static int findKthLargest(int[] nums, int k) {
+    public int findKthLargest(int[] nums, int k) {
 
         int l = 0;
         int r = nums.length-1;
@@ -495,10 +495,12 @@ public class Main {
         return 3;
     }
 
+
     public boolean is_square(int n) {
         int sqrt = (int)Math.sqrt(n);
         return sqrt*sqrt == n;
     }
+
 
     public int[] intersect(int[] nums1, int[] nums2) {
         return nums1;
@@ -1050,7 +1052,7 @@ public class Main {
             return Integer.MAX_VALUE;
         } else if (dividend == Integer.MIN_VALUE && divisor == 1) {
             return Integer.MIN_VALUE;
-        } else if((dividend < 0 && divisor >= 0) || (dividend >=0 && divisor < 0)) {
+        } else if(dividend < 0 && divisor > 0) {
             sign = -1;
         }
 
@@ -1443,8 +1445,17 @@ public class Main {
     }
 
 
-    public int numSubarrayProductLessThanK(int[] nums, int k) {
-        return k;
+    public static int numSubarrayProductLessThanK(int[] nums, int k) {
+        int product = 1;
+        int count = 0;
+        for (int i=0,j=0; j<nums.length; j++) {
+            product *= nums[j];
+            while (product >= k && i <= j) {
+                product /= nums[i++];
+            }
+            count += j-i+1;
+        }
+        return count;
     }
 
 
