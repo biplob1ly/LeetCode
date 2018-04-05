@@ -287,8 +287,22 @@ public class Main {
     }
 
 
+    public int maxPathSumHelper(TreeNode root, int[] maxPath) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftSum = maxPathSumHelper(root.left, maxPath);
+        int rightSum = maxPathSumHelper(root.right, maxPath);
+
+        int current = Math.max(root.val, Math.max(root.val + leftSum, root.val + rightSum));
+        maxPath[0] = Math.max(maxPath[0] ,Math.max(current, leftSum + root.val + rightSum));
+        return current;
+    }
+
     public int maxPathSum(TreeNode root) {
-        return 0;
+        int[] maxPath = {Integer.MIN_VALUE};
+        return maxPath[0];
     }
 
 
@@ -360,22 +374,29 @@ public class Main {
     }
 
 
-    public int treeHeight(TreeNode root) {
+//    public int treeHeight(TreeNode root) {
+//        if (root == null) {
+//            return 0;
+//        }
+//        int leftHeight = treeHeight(root.left);
+//        int rightHeight = treeHeight(root.right);
+//        return 1 + Math.max(leftHeight, rightHeight);
+//    }
+
+
+    public int treeHeight(TreeNode root, int[] diameter) {
         if (root == null) {
             return 0;
         }
-        int leftHeight = treeHeight(root.left);
-        int rightHeight = treeHeight(root.right);
+        int leftHeight = treeHeight(root.left, diameter);
+        int rightHeight = treeHeight(root.right, diameter);
+        diameter[0] = Math.max(diameter[0], 1+leftHeight+rightHeight);
         return 1 + Math.max(leftHeight, rightHeight);
     }
 
 
     public int diameterOfBinaryTree(TreeNode root) {
-
-        int leftHeight = treeHeight(root.left);
-        int rightHeight = treeHeight(root.right);
-
-        return 1 + 
+        return Math.max(0, treeHeight(root, new int[1])-1);
     }
 
 
