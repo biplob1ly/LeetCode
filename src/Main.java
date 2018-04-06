@@ -117,11 +117,13 @@ public class Main {
 
     public static void showSorting() {
         int[] arr = {3,1,4,6,7,8,2,9,0,5,0,9};
-        Sorting.bubbleSort(arr);
-        System.out.println(Arrays.toString(arr));
-        Sorting.mergeSort(arr);
-        System.out.println(Arrays.toString(arr));
-        Sorting.quickSort(arr);
+//        Sorting.bubbleSort(arr);
+//        System.out.println(Arrays.toString(arr));
+//        Sorting.mergeSort(arr);
+//        System.out.println(Arrays.toString(arr));
+//        Sorting.quickSort(arr);
+//        System.out.println(Arrays.toString(arr));
+        Sorting.heapSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
@@ -300,6 +302,7 @@ public class Main {
         return current;
     }
 
+
     public int maxPathSum(TreeNode root) {
         int[] maxPath = {Integer.MIN_VALUE};
         return maxPath[0];
@@ -374,14 +377,14 @@ public class Main {
     }
 
 
-//    public int treeHeight(TreeNode root) {
-//        if (root == null) {
-//            return 0;
-//        }
-//        int leftHeight = treeHeight(root.left);
-//        int rightHeight = treeHeight(root.right);
-//        return 1 + Math.max(leftHeight, rightHeight);
-//    }
+    public int treeHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = treeHeight(root.left);
+        int rightHeight = treeHeight(root.right);
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
 
 
     public int treeHeight(TreeNode root, int[] diameter) {
@@ -656,6 +659,36 @@ public class Main {
         String right = (t.right != null) ? "(" + tree2str(t.right) + ")" : "";
         String left = (t.left != null) ? "(" + tree2str(t.left) + ")" : ((t.right != null) ? "()" : "");
         return t.val + left + right;
+    }
+
+
+    public String frequencySort(String s) {
+        return "fdf";
+    }
+
+
+    public int[] intersect2(int[] nums1, int[] nums2) {
+        return new int[]{3, 4};
+    }
+
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        return head;
+    }
+
+
+    public int findPairs(int[] nums, int k) {
+        return 0;
+    }
+
+
+    public List<String> topKFrequent(String[] words, int k) {
+        return new ArrayList<>();
+    }
+
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        return new int[]{3, 2};
     }
 
 
@@ -963,7 +996,7 @@ public class Main {
     }
 
 
-    public int[] intersect(int[] nums1, int[] nums2) {
+    public int[] intersect1(int[] nums1, int[] nums2) {
         return nums1;
     }
 
