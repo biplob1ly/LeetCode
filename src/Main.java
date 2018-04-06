@@ -21,8 +21,8 @@ public class Main {
                 {10,11,13},
                 {12,13,15}};
 
-        int[] nums = {10,5,2,6};
-        System.out.println(numSubarrayProductLessThanK(nums, 100));
+        int[] nums = {73,74,75,71,69,72,76,73};
+//        System.out.println(Arrays.toString(dailyTemperatures(nums)));
 
 //        showRecursion();
 
@@ -117,11 +117,13 @@ public class Main {
 
     public static void showSorting() {
         int[] arr = {3,1,4,6,7,8,2,9,0,5,0,9};
-        Sorting.bubbleSort(arr);
-        System.out.println(Arrays.toString(arr));
-        Sorting.mergeSort(arr);
-        System.out.println(Arrays.toString(arr));
-        Sorting.quickSort(arr);
+//        Sorting.bubbleSort(arr);
+//        System.out.println(Arrays.toString(arr));
+//        Sorting.mergeSort(arr);
+//        System.out.println(Arrays.toString(arr));
+//        Sorting.quickSort(arr);
+//        System.out.println(Arrays.toString(arr));
+        Sorting.heapSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
@@ -160,7 +162,22 @@ public class Main {
 
 
     public int kthSmallest(TreeNode root, int k) {
-        return k;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        int result = 0;
+        while(!stack.isEmpty() || node != null) {
+            if (node != null) {
+                stack.add(node);
+                node = node.left;
+            } else {
+                node = stack.pop();
+                if (--k == 0) {
+                    result = node.val;
+                }
+                node = node.right;
+            }
+        }
+        return result;
     }
 
 
@@ -170,12 +187,85 @@ public class Main {
 
 
     public TreeNode invertTree(TreeNode root) {
+        invertChild(root);
         return root;
     }
 
 
+    public void invertChild(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        TreeNode tempNode = node.left;
+        node.left = node.right;
+        node.right = tempNode;
+        invertChild(node.left);
+        invertChild(node.right);
+    }
+
+
     public List<Double> averageOfLevels(TreeNode root) {
-        return new ArrayList<>();
+        List<Double> averageList = new ArrayList<>();
+        double sum = 0;
+        int count = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            sum += node.val;
+            count++;
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                averageList.add(sum/count);
+                sum = 0;
+                count = 0;
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return averageList;
+    }
+
+
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> maxList = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            if (max < node.val) {
+                max = node.val;
+            }
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                maxList.add(max);
+                max = Integer.MIN_VALUE;
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return maxList;
     }
 
 
@@ -184,23 +274,314 @@ public class Main {
     }
 
 
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+    public boolean isSymmetric(TreeNode root) {
+        return false;
+    }
+
+
+    public boolean hasPathSum(TreeNode root, int sum) {
+        return false;
+    }
+
+
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
         return new ArrayList<>();
+    }
+
+
+    public int maxPathSumHelper(TreeNode root, int[] maxPath) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftSum = maxPathSumHelper(root.left, maxPath);
+        int rightSum = maxPathSumHelper(root.right, maxPath);
+
+        int current = Math.max(root.val, Math.max(root.val + leftSum, root.val + rightSum));
+        maxPath[0] = Math.max(maxPath[0] ,Math.max(current, leftSum + root.val + rightSum));
+        return current;
+    }
+
+
+    public int maxPathSum(TreeNode root) {
+        int[] maxPath = {Integer.MIN_VALUE};
+        return maxPath[0];
+    }
+
+
+    public List<Integer> rightSideView(TreeNode root) {
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        List<Integer> rightList = new ArrayList<>();
+
+        if (root != null) {
+            queue.add(root);
+        }
+
+        while (!queue.isEmpty()) {
+            int queueSize = queue.size();
+            for (int i=0; i<queueSize; i++) {
+                TreeNode node = queue.poll();
+                if (i == 0) {
+                    rightList.add(node.val);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+            }
+        }
+
+        return rightList;
+    }
+
+
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+            List<List<Integer>> orderList = new ArrayList<>();
+            LinkedList<TreeNode> current = new LinkedList<>();
+            LinkedList<TreeNode> next = new LinkedList<>();
+            List<Integer> currentVals = new ArrayList<>();
+
+            if (root != null) {
+                current.add(root);
+            }
+            while (!current.isEmpty()) {
+                TreeNode node = current.poll();
+                currentVals.add(node.val);
+                if (node.left != null) {
+                    next.add(node.left);
+                }
+                if (node.right != null) {
+                    next.add(node.right);
+                }
+                if (current.isEmpty()) {
+                    orderList.add(0, currentVals);
+                    currentVals = new ArrayList<>();
+                    current = next;
+                    next = new LinkedList<>();
+                }
+            }
+
+            return orderList;
+    }
+
+
+    public int findTilt(TreeNode root) {
+        return 0;
+    }
+
+
+    public TreeNode convertBST(TreeNode root) {
+        return root;
+    }
+
+
+    public int treeHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = treeHeight(root.left);
+        int rightHeight = treeHeight(root.right);
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+
+    public int treeHeight(TreeNode root, int[] diameter) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = treeHeight(root.left, diameter);
+        int rightHeight = treeHeight(root.right, diameter);
+        diameter[0] = Math.max(diameter[0], 1+leftHeight+rightHeight);
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        return Math.max(0, treeHeight(root, new int[1])-1);
+    }
+
+
+    public int findBottomLeftValue(TreeNode root) {
+        return 0;
+    }
+
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        return new ArrayList<>();
+    }
+
+
+    public int findSecondMinimumValue(TreeNode root) {
+        return 0;
+    }
+
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == q) {
+            return true;
+        } else if (p == null || q == null || p.val != q.val) {
+            return false;
+        }
+
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> orderList = new ArrayList<>();
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        List<Integer> currentVals = new ArrayList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            currentVals.add(node.val);
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                orderList.add(currentVals);
+                currentVals = new ArrayList<>();
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return orderList;
+    }
+
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> orderList = new ArrayList<>();
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        List<Integer> currentVals = new ArrayList<>();
+
+        if (root != null) {
+            current.add(root);
+        }
+        int levelCount = 0;
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            if (levelCount%2 == 0) {
+                currentVals.add(node.val);
+            } else {
+                currentVals.add(0, node.val);
+            }
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                orderList.add(currentVals);
+                currentVals = new ArrayList<>();
+                current = next;
+                next = new LinkedList<>();
+            }
+        }
+
+        return orderList;
     }
 
 
     public List<Integer> inorderTraversal(TreeNode root) {
-        return new ArrayList<>();
+        List<Integer> inorderList = new ArrayList<>();
+        if (root == null) {
+            return inorderList;
+        }
+        TreeNode node = root;
+        Stack<TreeNode> nodeStack = new Stack<>();
+        while (node != null) {
+            nodeStack.push(node);
+            node = node.left;
+        }
+        while (!nodeStack.isEmpty()) {
+            node = nodeStack.pop();
+            inorderList.add(node.val);
+            if (node.right != null) {
+                node = node.right;
+                while (node != null) {
+                    nodeStack.push(node);
+                    node = node.left;
+                }
+            }
+        }
+        return inorderList;
     }
 
 
     public List<Integer> preorderTraversal(TreeNode root) {
-        return new ArrayList<>();
+        List<Integer> orderList = new ArrayList<>();
+        if (root == null) {
+            return orderList;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            orderList.add(node.val);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        return orderList;
+    }
+
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> orderList = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        if (root != null) {
+            stack.push(root);
+        }
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.peek();
+            boolean isLeaf = true;
+            if (node.right != null) {
+                stack.push(node.right);
+                isLeaf = false;
+                node.right = null;
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+                isLeaf = false;
+                node.left =null;
+            }
+
+            if (isLeaf) {
+                orderList.add(node.val);
+                stack.pop();
+            }
+        }
+        return orderList;
     }
 
 
     public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
-        return  new TreeNode(4);
+        if (t1 == null) {
+            return t2;
+        } else if (t2 == null) {
+            return t1;
+        }
+
+        t1.val += t2.val;
+        t1.left = mergeTrees(t1.left, t2.left);
+        t1.right = mergeTrees(t1.right, t2.right);
+
+        return t1;
     }
 
 
@@ -215,12 +596,99 @@ public class Main {
 
 
     public int maxDepth(TreeNode root) {
-        return 0;
+        int depth = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        if (root != null) {
+            current.add(root);
+        }
+
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            if (node.left != null) {
+                next.add(node.left);
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            }
+            if (current.isEmpty()) {
+                current = next;
+                next = new LinkedList<>();
+                depth++;
+            }
+        }
+        return depth;
+    }
+
+
+    public int minDepth(TreeNode root) {
+        int depth = 0;
+        LinkedList<TreeNode> current = new LinkedList<>();
+        LinkedList<TreeNode> next = new LinkedList<>();
+        if (root != null) {
+            current.add(root);
+        }
+
+        while (!current.isEmpty()) {
+            TreeNode node = current.poll();
+            boolean flag = true;
+            if (node.left != null) {
+                next.add(node.left);
+                flag = false;
+            }
+            if (node.right != null) {
+                next.add(node.right);
+            } else if (flag) {
+                depth++;
+                break;
+            }
+            if (current.isEmpty()) {
+                current = next;
+                next = new LinkedList<>();
+                depth++;
+            }
+        }
+        return depth;
     }
 
 
     public String tree2str(TreeNode t) {
-        return new String("gh");
+        if (t == null) {
+            return "";
+        }
+        String right = (t.right != null) ? "(" + tree2str(t.right) + ")" : "";
+        String left = (t.left != null) ? "(" + tree2str(t.left) + ")" : ((t.right != null) ? "()" : "");
+        return t.val + left + right;
+    }
+
+
+    public String frequencySort(String s) {
+        return "fdf";
+    }
+
+
+    public int[] intersect2(int[] nums1, int[] nums2) {
+        return new int[]{3, 4};
+    }
+
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        return head;
+    }
+
+
+    public int findPairs(int[] nums, int k) {
+        return 0;
+    }
+
+
+    public List<String> topKFrequent(String[] words, int k) {
+        return new ArrayList<>();
+    }
+
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        return new int[]{3, 2};
     }
 
 
@@ -240,6 +708,32 @@ public class Main {
 
 
     public List<String> letterCasePermutation(String S) {
+        return new ArrayList<>();
+    }
+
+
+    public int totalHammingDistance(int[] nums) {
+        int count = 0;
+        for (int i=0; i<32; i++) {
+            int ones = 0;
+            int pos = 1<<i;
+            for (int j=0; j<nums.length; j++) {
+                if ((nums[j] & pos) > 0) {
+                    ones++;
+                }
+            }
+            count += ones * (nums.length - ones);
+        }
+        return count;
+    }
+
+
+    public int titleToNumber(String s) {
+        return 0;
+    }
+
+
+    public List<Integer> topKFrequent(int[] nums, int k) {
         return new ArrayList<>();
     }
 
@@ -307,7 +801,7 @@ public class Main {
 
 
     //search in a rotated sorted array
-    public int searcha(int[] nums, int target) {
+    public int search2(int[] nums, int target) {
         int l = 0;
         int r = nums.length -1;
         while(l <= r) {
@@ -334,7 +828,7 @@ public class Main {
     }
 
 
-    public boolean search(int[] nums, int target) {
+    public boolean search1(int[] nums, int target) {
         int l = 0;
         int r = nums.length -1;
         while(l <= r) {
@@ -502,7 +996,7 @@ public class Main {
     }
 
 
-    public int[] intersect(int[] nums1, int[] nums2) {
+    public int[] intersect1(int[] nums1, int[] nums2) {
         return nums1;
     }
 
@@ -681,7 +1175,7 @@ public class Main {
     }
 
 
-    public static String largestNumber(int[] nums) {
+    public String largestNumber(int[] nums) {
         String[] numStrArray = new String[nums.length];
         for (int i=0; i<nums.length; i++) {
             numStrArray[i] = Integer.toString(nums[i]);
@@ -1052,7 +1546,7 @@ public class Main {
             return Integer.MAX_VALUE;
         } else if (dividend == Integer.MIN_VALUE && divisor == 1) {
             return Integer.MIN_VALUE;
-        } else if(dividend < 0 && divisor > 0) {
+        } else if((dividend < 0 && divisor >= 0) || (dividend >=0 && divisor < 0)) {
             sign = -1;
         }
 
@@ -1125,7 +1619,7 @@ public class Main {
 
         int ones = 0;
         int twos = 0;
-        int commonBits = 0;
+        int commonBits;
         for (int n : nums) {
             twos = twos|(ones & n);
             ones ^= n;
@@ -1207,7 +1701,7 @@ public class Main {
         valMap.put('I', 1);
 
         int result = 0;
-        int diff = 0;
+        int diff;
         for(int i=0; i<s.length();) {
             if (i != s.length()-1 &&(diff = valMap.get(s.charAt(i+1)) - valMap.get(s.charAt(i))) > 0) {
                 result += diff;
@@ -1298,7 +1792,7 @@ public class Main {
 
     public boolean isHappy(int n) {
         int num = n;
-        Set<Integer> numbers = new HashSet<Integer>(Arrays.asList(0,2,4,16,20,37,42,58,89,145));
+        Set<Integer> numbers = new HashSet<>(Arrays.asList(0, 2, 4, 16, 20, 37, 42, 58, 89, 145));
         while(n != 1) {
             int sum = 0;
             while(n != 0) {
@@ -1425,7 +1919,7 @@ public class Main {
     }
 
 
-    public static int[] dailyTemperatures(int[] temperatures) {
+    public int[] dailyTemperatures(int[] temperatures) {
         Stack<Integer> indexStack = new Stack<>();
         int[] result = new int[temperatures.length];
 
@@ -1445,17 +1939,8 @@ public class Main {
     }
 
 
-    public static int numSubarrayProductLessThanK(int[] nums, int k) {
-        int product = 1;
-        int count = 0;
-        for (int i=0,j=0; j<nums.length; j++) {
-            product *= nums[j];
-            while (product >= k && i <= j) {
-                product /= nums[i++];
-            }
-            count += j-i+1;
-        }
-        return count;
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        return k;
     }
 
 

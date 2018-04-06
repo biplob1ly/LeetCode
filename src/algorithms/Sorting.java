@@ -83,4 +83,36 @@ public class Sorting {
         swap(arr, i+1, end);
         return i+1;
     }
+
+    public static void heapify(int[] arr, int size, int index) {
+        int leftChildIndex;
+        while ((leftChildIndex = 2 * index + 1) < size) {
+            int rightChildIndex = 2 * index + 2;
+            int largerChildIndex = leftChildIndex;
+            if (rightChildIndex < size && arr[rightChildIndex] > arr[largerChildIndex]) {
+                largerChildIndex = rightChildIndex;
+            }
+            if (arr[index] < arr[largerChildIndex]) {
+                int temp = arr[index];
+                arr[index] = arr[largerChildIndex];
+                arr[largerChildIndex] = temp;
+            } else {
+                break;
+            }
+            index = largerChildIndex;
+        }
+    }
+
+    public static void heapSort(int[] arr) {
+        for (int i = arr.length / 2 - 1; i >= 0; --i) {
+            heapify(arr, arr.length, i);
+        }
+
+        for (int i = arr.length - 1; i > 0; --i) {
+            int temp = arr[i];
+            arr[i] = arr[0];
+            arr[0] = temp;
+            heapify(arr, i, 0);
+        }
+    }
 }
