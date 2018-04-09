@@ -23,6 +23,7 @@ public class Main {
 
         int[] nums = {73,74,75,71,69,72,76,73};
 //        System.out.println(Arrays.toString(dailyTemperatures(nums)));
+        frequencySort("tree");
 
 //        showRecursion();
 
@@ -117,14 +118,23 @@ public class Main {
 
     public static void showSorting() {
         int[] arr = {3,1,4,6,7,8,2,9,0,5,0,9};
+
 //        Sorting.bubbleSort(arr);
 //        System.out.println(Arrays.toString(arr));
 //        Sorting.mergeSort(arr);
 //        System.out.println(Arrays.toString(arr));
 //        Sorting.quickSort(arr);
 //        System.out.println(Arrays.toString(arr));
-        Sorting.heapSort(arr);
-        System.out.println(Arrays.toString(arr));
+//        Sorting.heapSort(arr);
+//        System.out.println(Arrays.toString(arr));
+        String[] words = {"11", "12", "10"};
+        Arrays.sort(words, new Comparator<String>() {
+            @Override
+            public int compare(String a, String b) {
+                return (Integer.parseInt(a) - Integer.parseInt(b));
+            }
+        });
+        System.out.println(Arrays.toString(words));
     }
 
     public static void showRecursion() {
@@ -662,8 +672,24 @@ public class Main {
     }
 
 
-    public String frequencySort(String s) {
-        return "fdf";
+    public static String frequencySort(String s) {
+        int[] count = new int[256];
+        for (char c : s.toCharArray()) {
+            count[c]++;
+            System.out.println(c + " " + count[c]);
+        }
+        Arrays.sort(count);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < count.length; i++) {
+            if (count[i] > 0) {
+                System.out.println(i + " " + i + " " + count[i]);
+                char[] arr = new char[count[i]];
+                Arrays.fill(arr, (char) i);
+                stringBuilder.append(arr);
+            }
+        }
+
+        return stringBuilder.toString();
     }
 
 
@@ -683,7 +709,36 @@ public class Main {
 
 
     public List<String> topKFrequent(String[] words, int k) {
-        return new ArrayList<>();
+        Map<String, Integer> wordMap = new HashMap<>();
+        for (String word : words) {
+            if (wordMap.containsKey(word)) {
+                wordMap.put(word, wordMap.get(word) + 1);
+            } else {
+                wordMap.put(word, 1);
+            }
+        }
+
+        PriorityQueue<Map.Entry<String, Integer>> wordHeap = new PriorityQueue<>(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> entry1, Map.Entry<String, Integer> entry2) {
+                int val = entry1.getValue() - entry2.getValue();
+                return (val == 0) ? entry2.getKey().compareTo(entry1.getKey()) : val;
+            }
+        });
+
+        for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
+            wordHeap.offer(entry);
+            if (wordHeap.size() > k) {
+                wordHeap.poll();
+            }
+        }
+
+        List<String> topKFrequent = new ArrayList<>();
+        while (wordHeap.size() > 0) {
+            topKFrequent.add(wordHeap.poll().getKey());
+        }
+        Collections.reverse(topKFrequent);
+        return topKFrequent;
     }
 
 
@@ -734,7 +789,36 @@ public class Main {
 
 
     public List<Integer> topKFrequent(int[] nums, int k) {
-        return new ArrayList<>();
+        Map<Integer, Integer> numMap = new HashMap<>();
+        for (int num : nums) {
+            if (numMap.containsKey(num)) {
+                numMap.put(num, numMap.get(num) + 1);
+            } else {
+                numMap.put(num, 1);
+            }
+        }
+        int max = 0;
+        for (Map.Entry<Integer, Integer> entry : numMap.entrySet()) {
+            max = Math.max(max, entry.getValue());
+        }
+
+        List<Integer>[] lists = new List[max + 1];
+        for (Map.Entry<Integer, Integer> entry : numMap.entrySet()) {
+            int count = entry.getValue();
+            if (lists[count] == null) {
+                lists[count] = new ArrayList<>();
+            }
+            lists[count].add(entry.getKey());
+        }
+
+        List<Integer> topKFrequent = new ArrayList<>();
+        for (int i = max; i > 0; --i) {
+            if (lists[i] != null) {
+                topKFrequent.addAll(lists[i]);
+            }
+            if (topKFrequent.size() == k) break;
+        }
+        return topKFrequent;
     }
 
 
@@ -760,7 +844,7 @@ public class Main {
     }
 
 
-    public int findLUSlength(String a, String b) {
+    public int findLUSlength(int a, String b) {
         return 0;
     }
 
