@@ -23,7 +23,7 @@ public class Main {
 
         int[] nums = {73,74,75,71,69,72,76,73};
 //        System.out.println(Arrays.toString(dailyTemperatures(nums)));
-        frequencySort("tree");
+        System.out.println(frequencySort("tree"));
 
 //        showRecursion();
 
@@ -673,20 +673,23 @@ public class Main {
 
 
     public static String frequencySort(String s) {
-        int[] count = new int[256];
+        int[][] count = new int[256][2];
         for (char c : s.toCharArray()) {
-            count[c]++;
-            System.out.println(c + " " + count[c]);
+            count[c][0] = c;
+            count[c][1]++;
         }
-        Arrays.sort(count);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < count.length; i++) {
-            if (count[i] > 0) {
-                System.out.println(i + " " + i + " " + count[i]);
-                char[] arr = new char[count[i]];
-                Arrays.fill(arr, (char) i);
-                stringBuilder.append(arr);
+        Arrays.sort(count, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] a, int[] b) {
+                return b[1] - a[1];
             }
+        });
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i=0, j=0; j < s.length(); i++) {
+            char[] arr = new char[count[i][1]];
+            Arrays.fill(arr, (char) count[i][0]);
+            stringBuilder.append(arr);
+            j += count[i][1];
         }
 
         return stringBuilder.toString();
